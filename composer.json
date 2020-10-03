@@ -1,0 +1,20 @@
+{
+  "name": "stephanschuler/eval-channel-cli",
+  "description": "",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Stephan Schuler",
+      "email": "stephan.schuler@netlogix.de"
+    }
+  ],
+  "require": {
+    "php": "~7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "StephanSchuler\\EvalChannelCli\\": "src"
+    }
+  }
+}
