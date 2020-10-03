@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+function() {
+  local shellScriptPath=$1
+  local shellScriptDir=$(dirname "$shellScriptPath")
+  local phpScriptpath="$shellScriptDir/wrapped.php"
+
+  . $shellScriptDir/../resources/call-with-back-channel
+
+  alias wrapped="_callWithBackChannel $(realpath $phpScriptpath)"
+} $0
