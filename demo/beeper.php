@@ -58,7 +58,7 @@ new class (trim($argv[1] ?? '')) {
             if ($data === false) {
                 return;
             }
-            $this->beep($i);
+            $this->beep($i, false);
             $i++;
             fputs(STDOUT, $data);
         } while (true);
@@ -68,19 +68,32 @@ new class (trim($argv[1] ?? '')) {
     {
         for ($i = 0; $i < $beeps; $i++) {
             $i && sleep(1);
+            $this->dot($i);
             $this->beep($i);
         }
     }
 
-    private function beep(int $i)
+    private function dot(int $i)
     {
-        $announcement = $i%2
-            ? Announcement::notify('.')
-            : Announcement::warn('.');
+        switch ($i % 2) {
+            case 0:
+                $this->console->send(
+                    Announcement::notify('.')
+                        ->withoutNewline()
+                );
+                break;
+            case 1:
+                $this->console->send(
+                    Announcement::warn('.')
+                        ->withoutNewline()
+                );
+                break;
+        }
+    }
 
+    private function beep(int $i, bool $dot = true)
+    {
         $this->console->send(
-            $announcement
-                ->withoutNewline(),
             Environment::introduce('beeps')
                 ->withValue(Value::instant((string)($i + 1))),
             Beep::ring()
