@@ -5,6 +5,7 @@ declare(strict_types=1);
 use StephanSchuler\EvalChannelCli\ConsoleAdapter;
 use StephanSchuler\EvalChannelCli\Messages\Announcement;
 use StephanSchuler\EvalChannelCli\Messages\Beep;
+use StephanSchuler\EvalChannelCli\Messages\Environment;
 use StephanSchuler\EvalChannelCli\Messages\Question;
 use StephanSchuler\EvalChannelCli\Values\Value;
 
@@ -23,6 +24,8 @@ for ($i = 0; $i < (int)$anzahl->__toString(); $i++) {
     $console->send(
         Announcement::notify('.')
             ->withoutNewline(),
+        Environment::introduce('beeps')
+            ->withValue(Value::instant((string)$i)),
         Beep::ring()
     );
 }
