@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace StephanSchuler\EvalChannelCli\Messages;
 
 use StephanSchuler\EvalChannelCli\ConsoleAdapter;
-use StephanSchuler\EvalChannelCli\Shell;
+use StephanSchuler\EvalChannelCli\Stream\Streams;
 
 final class Terminate implements Message
 {
@@ -25,10 +25,10 @@ final class Terminate implements Message
         return new static($statuscode);
     }
 
-    public function execute(Shell $shell, ConsoleAdapter $console): void
+    public function execute(Streams $streams, ConsoleAdapter $console): void
     {
         $command = sprintf('return %d', $this->statuscode);
         $command = 'break 1';
-        $shell->protocol($command);
+        $streams->protocol($command);
     }
 }

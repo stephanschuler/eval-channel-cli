@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace StephanSchuler\EvalChannelCli\Messages;
 
 use StephanSchuler\EvalChannelCli\ConsoleAdapter;
-use StephanSchuler\EvalChannelCli\Shell;
+use StephanSchuler\EvalChannelCli\Stream\Streams;
 use StephanSchuler\EvalChannelCli\Values\Value;
 
 final class Environment implements Message
@@ -28,14 +28,14 @@ final class Environment implements Message
         return new static($this->name, $value);
     }
 
-    public function execute(Shell $shell, ConsoleAdapter $console): void
+    public function execute(Streams $streams, ConsoleAdapter $console): void
     {
         $externalAssignment = sprintf(
             'export %s=%s',
             escapeshellarg((string)$this->name),
             escapeshellarg((string)$this->value)
         );
-        $shell->protocol('export ' . $externalAssignment);
+        $streams->protocol('export ' . $externalAssignment);
 
         $internalAssignment = sprintf(
             '%s=%s',

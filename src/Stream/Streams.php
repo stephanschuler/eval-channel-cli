@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace StephanSchuler\EvalChannelCli;
+namespace StephanSchuler\EvalChannelCli\Stream;
 
-use StephanSchuler\EvalChannelCli\Stream\Stream;
-
-final class Shell
+final class Streams
 {
     protected $stdout;
     protected $stderr;

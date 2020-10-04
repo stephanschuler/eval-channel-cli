@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace StephanSchuler\EvalChannelCli\Messages;
 
 use StephanSchuler\EvalChannelCli\ConsoleAdapter;
-use StephanSchuler\EvalChannelCli\Shell;
+use StephanSchuler\EvalChannelCli\Stream\Streams;
 use StephanSchuler\EvalChannelCli\Values\Value;
 
 final class Announcement implements Message
@@ -52,7 +52,7 @@ final class Announcement implements Message
         return new static($this->value, $this->withNewline, $this->stream, $arguments);
     }
 
-    public function execute(Shell $shell, ConsoleAdapter $console): void
+    public function execute(Streams $streams, ConsoleAdapter $console): void
     {
         $value = $this->value;
         if ($this->withNewline) {
@@ -63,10 +63,10 @@ final class Announcement implements Message
         }
         switch ($this->stream) {
             case self::STDOUT:
-                $shell->stdout($value);
+                $streams->stdout($value);
                 break;
             case self::STDERR:
-                $shell->stderr($value);
+                $streams->stderr($value);
                 break;
             default:
                 throw new \Exception('Invalid stream');

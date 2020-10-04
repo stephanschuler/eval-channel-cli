@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace StephanSchuler\EvalChannelCli\Messages;
 
 use StephanSchuler\EvalChannelCli\ConsoleAdapter;
-use StephanSchuler\EvalChannelCli\Shell;
+use StephanSchuler\EvalChannelCli\Stream\Streams;
 use StephanSchuler\EvalChannelCli\Values\Value;
 
 final class Question implements Message
@@ -38,10 +38,10 @@ final class Question implements Message
         return $this;
     }
 
-    public function execute(Shell $shell, ConsoleAdapter $console): void
+    public function execute(Streams $streams, ConsoleAdapter $console): void
     {
         $this->ask($console);
-        $this->capture($shell);
+        $this->capture($streams);
     }
 
     protected function ask(ConsoleAdapter $console): void
@@ -52,7 +52,7 @@ final class Question implements Message
         );
     }
 
-    protected function capture(Shell $shell): void
+    protected function capture(Streams $shell): void
     {
         $stdin = fopen(self::STDIN, 'r');
         $this->response = [];
