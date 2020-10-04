@@ -35,7 +35,16 @@ do {
     stream_select($read, $write, $except, 0);
 
     foreach ($read as $name => $stream) {
-        $data = fgets($stream);
+        switch ($name) {
+            case 'stdout':
+            case 'stderr':
+                $data = stream_get_contents($stream);
+                break;
+            case 'data':
+                $data = fgets($stream);
+                break;
+        }
+
         if ($data === false) {
             unset($openStreams[$name]);
             continue;
