@@ -14,9 +14,9 @@ final class ConsoleAdapter
 
     public function __construct()
     {
-        $this->stdout = Stream\Stream::fromStream('php://fd/1');
-        $this->stderr = Stream\Stream::fromStream('php://fd/2');
-        $this->protocol = Stream\Stream::fromStream('php://fd/3')
+        $this->stdout = Stream\Stream::fromResource(STDOUT);
+        $this->stderr = Stream\Stream::fromResource(STDERR);
+        $this->protocol = Stream\Stream::fromResource(fopen('php://fd/3', 'w'))
             ->transform(static function (string $message) {
                 return base64_encode($message) . PHP_EOL;
             });

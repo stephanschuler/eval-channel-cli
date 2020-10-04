@@ -17,15 +17,12 @@ final class Stream
         $this->transformation = $transformation;
     }
 
-    public static function fromStream(string $stream): self
+    public static function fromResource($stream): self
     {
-        $stream = fopen($stream, 'w');
+        if (!is_resource($stream)) {
+            throw new \Exception('The given stream is not a resource.');
+        }
         return new static($stream);
-    }
-
-    public function __destruct()
-    {
-//        fclose($this->resource);
     }
 
     public function send(string $message): void
