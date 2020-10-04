@@ -91,7 +91,7 @@ new class {
         });
     }
 
-    private function announce(Value $summe)
+    private function announce(Value $summe): void
     {
         $this->console->send(
             Messages\Announcement::notify('Die aktuelle Summe ist: %s.')

@@ -36,7 +36,7 @@ new class (trim($argv[1] ?? '')) {
         );
     }
 
-    private function ask()
+    private function ask(): void
     {
         do {
             $this->console->send(
@@ -50,7 +50,7 @@ new class (trim($argv[1] ?? '')) {
         $this->beepUntil($beeps);
     }
 
-    private function fromStdin()
+    private function fromStdin(): void
     {
         $i = 0;
         do {
@@ -64,7 +64,7 @@ new class (trim($argv[1] ?? '')) {
         } while (true);
     }
 
-    private function beepUntil(int $beeps)
+    private function beepUntil(int $beeps): void
     {
         for ($i = 0; $i < $beeps; $i++) {
             $i && sleep(1);
@@ -73,7 +73,7 @@ new class (trim($argv[1] ?? '')) {
         }
     }
 
-    private function dot(int $i)
+    private function dot(int $i): void
     {
         switch ($i % 2) {
             case 0:
@@ -91,7 +91,7 @@ new class (trim($argv[1] ?? '')) {
         }
     }
 
-    private function beep(int $i, bool $dot = true)
+    private function beep(int $i, bool $dot = true): void
     {
         $this->console->send(
             Environment::introduce('beeps')

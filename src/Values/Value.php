@@ -22,5 +22,5 @@ abstract class Value
         return new Instant($value);
     }
 
-    abstract public function __toString();
+    abstract public function __toString(): string;
 }
