@@ -32,9 +32,15 @@ do {
     $write = null;
     $except = null;
 
-    stream_select($read, $write, $except, 0);
+    stream_select($read, $write, $except, 31556952);
 
     foreach ($read as $name => $stream) {
+
+        if (feof($stream)) {
+            unset($openStreams[$name]);
+            continue;
+        }
+
         switch ($name) {
             case 'stdout':
             case 'stderr':
