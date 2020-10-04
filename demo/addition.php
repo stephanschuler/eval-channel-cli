@@ -24,7 +24,7 @@ new class {
         $b = $this->fetchB();
 
         $summe = $this->calculate($summeBefore, $a, $b);
-        $summe->__toString();
+        $summe->getValue();
         $this->announce($summe);
 
         $this->console->send(
@@ -81,7 +81,7 @@ new class {
     {
         return Value::lazy(function () use ($values): string {
             $values = array_map(function (Value $value): string {
-                return $value->__toString();
+                return $value->getValue();
             }, $values);
             $values = array_map(function (string $value): int {
                 return (int)$value;

@@ -22,5 +22,10 @@ abstract class Value
         return new Instant($value);
     }
 
-    abstract public function __toString(): string;
+    abstract public function getValue(): string;
+
+    final public function __toString(): string
+    {
+        return $this->getValue();
+    }
 }

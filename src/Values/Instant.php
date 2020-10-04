@@ -8,7 +8,7 @@ final class Instant extends Value
     /** @var string */
     protected $value;
 
-    public function __toString(): string
+    public function getValue(): string
     {
         return $this->value;
     }

@@ -8,7 +8,7 @@ final class Lazy extends Value
     /** @var callable */
     protected $value;
 
-    public function __toString(): string
+    public function getValue(): string
     {
         return ($this->value)();
     }

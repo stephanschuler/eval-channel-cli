@@ -44,7 +44,7 @@ new class (trim($argv[1] ?? '')) {
                     ->as($anzahl)
             );
             assert($anzahl instanceof Value);
-            $beeps = (int)$anzahl->__toString();
+            $beeps = (int)$anzahl->getValue();
         } while ($beeps <= 0);
 
         $this->beepUntil($beeps);
