@@ -3,9 +3,9 @@
 function() {
   local shellScriptPath=$1
   local shellScriptDir=$(dirname "$shellScriptPath")
-  local phpScriptpath="$shellScriptDir/wrapped.php"
+  local phpScriptpath="$shellScriptDir/addition.php"
 
   . $shellScriptDir/../resources/call-with-back-channel
 
-  alias wrapped="_callWithBackChannel $(realpath $phpScriptpath)"
+  alias addition="_callWithBackChannel $(realpath $phpScriptpath)"
 } $0
