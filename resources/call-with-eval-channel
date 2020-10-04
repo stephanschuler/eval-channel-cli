@@ -7,7 +7,7 @@ alias _merge-stdin-and-stdout-into-backchannel=$mergeStdinAndStdoutIntoEvalChann
 
 function _callWithEvalChannel() {
   local backChannelMessage
-  _merge-stdin-and-stdout-into-backchannel $@ | while IFS= read -r backChannelMessage; do
+  SHELL_PID=$$ _merge-stdin-and-stdout-into-backchannel $@ | while IFS= read -r backChannelMessage; do
     backChannelMessage=$(echo $backChannelMessage | base64 -D)
     eval $backChannelMessage
   done

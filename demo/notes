@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+function() {
+  local shellScriptPath=$1
+  local shellScriptDir=$(dirname "$shellScriptPath")
+  local phpScriptpath="$shellScriptDir/notes.php"
+
+  . $shellScriptDir/../resources/call-with-eval-channel
+
+  alias notes="_callWithEvalChannel $(realpath $phpScriptpath)"
+} $0
