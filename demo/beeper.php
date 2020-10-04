@@ -74,8 +74,12 @@ new class (trim($argv[1] ?? '')) {
 
     private function beep(int $i)
     {
+        $announcement = $i%2
+            ? Announcement::notify('.')
+            : Announcement::warn('.');
+
         $this->console->send(
-            Announcement::notify('.')
+            $announcement
                 ->withoutNewline(),
             Environment::introduce('beeps')
                 ->withValue(Value::instant((string)($i + 1))),
