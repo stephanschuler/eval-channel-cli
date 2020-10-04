@@ -1,0 +1,17 @@
+#!/bin/zsh
+
+local evalChannelResourceDirectory=$(realpath $0 | xargs dirname)
+local mergeStdinAndStdoutIntoEvalChannel="$evalChannelResourceDirectory/mergeStdinAndStdoutIntoEvalChannel.php"
+
+alias _merge-stdin-and-stdout-into-backchannel=$mergeStdinAndStdoutIntoEvalChannel
+
+function _callWithEvalChannel() {
+  local backChannelMessage
+  _merge-stdin-and-stdout-into-backchannel $@ | while IFS= read -r backChannelMessage; do
+    backChannelMessage=$(echo $backChannelMessage | base64 -D)
+    eval $backChannelMessage
+  done
+}
+
+unset mergeStdinAndStdoutIntoEvalChannel
+unset evalChannelResourceDirectory

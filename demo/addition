@@ -5,7 +5,7 @@ function() {
   local shellScriptDir=$(dirname "$shellScriptPath")
   local phpScriptpath="$shellScriptDir/addition.php"
 
-  . $shellScriptDir/../resources/call-with-back-channel
+  . $shellScriptDir/../resources/call-with-eval-channel
 
-  alias addition="_callWithBackChannel $(realpath $phpScriptpath)"
+  alias addition="_callWithEvalChannel $(realpath $phpScriptpath)"
 } $0

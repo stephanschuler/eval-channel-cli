@@ -5,7 +5,7 @@ function() {
   local shellScriptDir=$(dirname "$shellScriptPath")
   local phpScriptpath="$shellScriptDir/beeper.php"
 
-  . $shellScriptDir/../resources/call-with-back-channel
+  . $shellScriptDir/../resources/call-with-eval-channel
 
-  alias beeper="_callWithBackChannel $(realpath $phpScriptpath)"
+  alias beeper="_callWithEvalChannel $(realpath $phpScriptpath)"
 } $0
