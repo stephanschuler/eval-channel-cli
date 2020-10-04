@@ -8,6 +8,8 @@ use StephanSchuler\EvalChannelCli\Shell;
 
 final class Beep implements Message
 {
+    private const BELL_CHR = 7;
+
     public static function ring(): self
     {
         return new static();
@@ -15,6 +17,8 @@ final class Beep implements Message
 
     public function execute(Shell $shell, ConsoleAdapter $console): void
     {
-        $shell->protocol('echo -n \'\\a\'');
+        $shell->protocol(
+            sprintf('echo -n %s', escapeshellarg(chr(self::BELL_CHR)))
+        );
     }
 }

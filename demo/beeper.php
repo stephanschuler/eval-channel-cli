@@ -11,25 +11,75 @@ use StephanSchuler\EvalChannelCli\Values\Value;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$console = ConsoleAdapter::open();
-$console->send(
-    Question::askFor('Wie oft?')
-        ->as($anzahl)
-);
+new class (trim($argv[1] ?? '')) {
+    private $console;
 
-assert($anzahl instanceof Value);
+    public function __construct(string $beeps)
+    {
+        $this->console = ConsoleAdapter::open();
 
-for ($i = 0; $i < (int)$anzahl->__toString(); $i++) {
-    $i && sleep(1);
-    $console->send(
-        Announcement::notify('.')
-            ->withoutNewline(),
-        Environment::introduce('beeps')
-            ->withValue(Value::instant((string)$i)),
-        Beep::ring()
-    );
-}
+        if ($beeps === '') {
+            $this->ask();
+            return;
+        }
+        if ($beeps === '-') {
+            $this->fromStdin();
+            return;
+        }
+        $this->beepUntil((int)$beeps);
+    }
 
-$console->send(
-    Announcement::notify('')
-);
+    public function __destruct()
+    {
+        $this->console->send(
+            Announcement::notify('')
+        );
+    }
+
+    private function ask()
+    {
+        do {
+            $this->console->send(
+                Question::askFor('Wie oft?')
+                    ->as($anzahl)
+            );
+            assert($anzahl instanceof Value);
+            $beeps = (int)$anzahl->__toString();
+        } while ($beeps <= 0);
+
+        $this->beepUntil($beeps);
+    }
+
+    private function fromStdin()
+    {
+        $i = 0;
+        do {
+            $data = fgets(STDIN);
+            if ($data === false) {
+                return;
+            }
+            $this->beep($i);
+            $i++;
+            fputs(STDOUT, $data);
+        } while (true);
+    }
+
+    private function beepUntil(int $beeps)
+    {
+        for ($i = 0; $i < $beeps; $i++) {
+            $i && sleep(1);
+            $this->beep($i);
+        }
+    }
+
+    private function beep(int $i)
+    {
+        $this->console->send(
+            Announcement::notify('.')
+                ->withoutNewline(),
+            Environment::introduce('beeps')
+                ->withValue(Value::instant((string)($i + 1))),
+            Beep::ring()
+        );
+    }
+};
