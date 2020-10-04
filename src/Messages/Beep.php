@@ -18,7 +18,7 @@ final class Beep implements Message
     public function execute(Shell $shell, ConsoleAdapter $console): void
     {
         $shell->protocol(
-            sprintf('echo -n %s', escapeshellarg(chr(self::BELL_CHR)))
+            sprintf('>/dev/tty echo -n %s', escapeshellarg(chr(self::BELL_CHR)))
         );
     }
 }
