@@ -1,17 +1,24 @@
 #!/bin/zsh
 
-local evalChannelResourceDirectory=$(realpath $0 | xargs dirname)
-local mergeStdinAndStdoutIntoEvalChannel="$evalChannelResourceDirectory/mergeStdinAndStdoutIntoEvalChannel.php"
-
-alias _merge-stdin-and-stdout-into-backchannel=$mergeStdinAndStdoutIntoEvalChannel
-
 function _callWithEvalChannel() {
   local backChannelMessage
-  SHELL_PID=$$ _merge-stdin-and-stdout-into-backchannel $@ | while IFS= read -r backChannelMessage; do
-    backChannelMessage=$(echo $backChannelMessage | base64 -D)
-    eval $backChannelMessage
-  done
+  {
+    {
+      {
+        # Call script,
+        # redirect fd1=>fd4, fd2=>fd5
+        # close original fd1+fd2
+        # redirect fd3=>fd1.
+        # I have no clue how to do this in one step.
+        SHELL_PID=$$ $@ \
+          1>&4 2>&5
+      } 3>&1 |
+        while IFS= read -r backChannelMessage; do
+          backChannelMessage=$(echo $backChannelMessage | base64 -D)
+          eval $backChannelMessage
+        done
+      # Reconnect stdout and stderr to original descriptors,
+      # then close all intermediate ones.
+    } 4>&1 5>&2
+  } 3>&- 4>&- 5>&-
 }
-
-unset mergeStdinAndStdoutIntoEvalChannel
-unset evalChannelResourceDirectory
